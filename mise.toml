@@ -1,0 +1,8 @@
+[tools]
+go = "latest"
+
+
+[tasks.build]
+run = """
+go build -o bin/osv ./main.go
+"""
