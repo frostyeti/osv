@@ -36,7 +36,6 @@ changelog:
 release:
   extra_files:
     - glob: "./dist/*.nupkg"
-    - glob: "./dist/**/*.yaml"
 
 brews:
   - repository:
