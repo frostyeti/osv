@@ -11,7 +11,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var KeyringProvider = defaultOpenKeyring
+
 func openKeyring(cmd *cobra.Command) (keyring.Keyring, error) {
+	return KeyringProvider(cmd)
+}
+
+func defaultOpenKeyring(cmd *cobra.Command) (keyring.Keyring, error) {
 	service, _ := cmd.Flags().GetString("service")
 	cfg, confErr := config.GetConfig()
 

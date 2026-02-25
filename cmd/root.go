@@ -4,8 +4,6 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"os"
-
 	"github.com/frostyeti/osv/cmd/config"
 	"github.com/spf13/cobra"
 )
@@ -33,7 +31,7 @@ to quickly create a Cobra application.`,
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
-		os.Exit(1)
+		osExit(1)
 	}
 }
 

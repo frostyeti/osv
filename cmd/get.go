@@ -50,13 +50,13 @@ Examples:
 
 		if len(keys) == 0 {
 			Error(cmd, "at least one --key must be provided\n")
-			os.Exit(1)
+			osExit(1)
 		}
 
 		kr, err := openKeyring(cmd)
 		if err != nil {
 			Error(cmd, "opening keyring failed: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		values := map[string]string{}
@@ -64,7 +64,7 @@ Examples:
 			item, err := kr.Get(key)
 			if err != nil {
 				Error(cmd, "getting secret %s failed: %v\n", key, err)
-				os.Exit(1)
+				osExit(1)
 			}
 			values[key] = string(item.Data)
 		}
@@ -74,7 +74,7 @@ Examples:
 			b, err := json.MarshalIndent(values, "", "  ")
 			if err != nil {
 				Error(cmd, "marshaling secrets to JSON failed: %v\n", err)
-				os.Exit(1)
+				osExit(1)
 			}
 			fmt.Println(string(b))
 
@@ -116,12 +116,12 @@ Examples:
 				envPath := os.Getenv("GITHUB_ENV")
 				if envPath == "" {
 					Error(cmd, "GITHUB_ENV environment variable is not set\n")
-					os.Exit(1)
+					osExit(1)
 				}
 				f, err := os.OpenFile(envPath, os.O_APPEND|os.O_WRONLY, 0600)
 				if err != nil {
 					Error(cmd, "opening GITHUB_ENV file failed: %v\n", err)
-					os.Exit(1)
+					osExit(1)
 				}
 				defer f.Close()
 				if strings.ContainsAny(v, "\r\n") {
