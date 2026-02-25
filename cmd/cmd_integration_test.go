@@ -68,8 +68,8 @@ func executeCmd(args ...string) (string, string, error) {
 
 	outBuf := new(bytes.Buffer)
 	errBuf := new(bytes.Buffer)
-	outBuf.ReadFrom(rOut)
-	errBuf.ReadFrom(rErr)
+	_, _ = outBuf.ReadFrom(rOut)
+	_, _ = errBuf.ReadFrom(rErr)
 
 	return outBuf.String(), errBuf.String(), err
 }

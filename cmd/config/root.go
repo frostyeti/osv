@@ -21,7 +21,7 @@ Examples:
   osv config get service`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		cmd.Help()
+		_ = cmd.Help()
 	},
 }
 

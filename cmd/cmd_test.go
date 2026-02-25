@@ -116,8 +116,8 @@ func executeCommand(args ...string) (string, string, error) {
 
 	outBuf := new(bytes.Buffer)
 	errBuf := new(bytes.Buffer)
-	outBuf.ReadFrom(rOut)
-	errBuf.ReadFrom(rErr)
+	_, _ = outBuf.ReadFrom(rOut)
+	_, _ = errBuf.ReadFrom(rErr)
 
 	return outBuf.String(), errBuf.String(), err
 }
@@ -148,9 +148,9 @@ func TestSetAndGetCmd(t *testing.T) {
 
 func TestLsCmd(t *testing.T) {
 	mk, _, _ := setupTest(t)
-	mk.Set(keyring.Item{Key: "app-db-pass", Data: []byte("pass1")})
-	mk.Set(keyring.Item{Key: "app-api-key", Data: []byte("key1")})
-	mk.Set(keyring.Item{Key: "other-secret", Data: []byte("sec1")})
+	_ = mk.Set(keyring.Item{Key: "app-db-pass", Data: []byte("pass1")})
+	_ = mk.Set(keyring.Item{Key: "app-api-key", Data: []byte("key1")})
+	_ = mk.Set(keyring.Item{Key: "other-secret", Data: []byte("sec1")})
 
 	out, _, _ := executeCommand("ls", "app-*")
 	if !strings.Contains(out, "app-db-pass") || !strings.Contains(out, "app-api-key") {
@@ -163,7 +163,7 @@ func TestLsCmd(t *testing.T) {
 
 func TestRmCmd(t *testing.T) {
 	mk, _, _ := setupTest(t)
-	mk.Set(keyring.Item{Key: "to-remove", Data: []byte("val")})
+	_ = mk.Set(keyring.Item{Key: "to-remove", Data: []byte("val")})
 
 	out, _, _ := executeCommand("rm", "to-remove", "--yes")
 	if !strings.Contains(out, "Successfully deleted 1 secret") {
@@ -178,7 +178,7 @@ func TestRmCmd(t *testing.T) {
 
 func TestRenameCmd(t *testing.T) {
 	mk, _, _ := setupTest(t)
-	mk.Set(keyring.Item{Key: "old-sec", Data: []byte("val123")})
+	_ = mk.Set(keyring.Item{Key: "old-sec", Data: []byte("val123")})
 
 	out, errOut, _ := executeCommand("rename", "old-sec", "new-sec")
 	if !strings.Contains(out, "renamed old-sec to new-sec") {

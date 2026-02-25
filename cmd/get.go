@@ -141,9 +141,9 @@ Examples:
 				}
 				defer f.Close()
 				if strings.ContainsAny(v, "\r\n") {
-					_, err = f.WriteString(fmt.Sprintf("%s<<EOF\n%s\nEOF\n", key, v))
+					_, _ = f.WriteString(fmt.Sprintf("%s<<EOF\n%s\nEOF\n", key, v))
 				} else {
-					_, err = f.WriteString(fmt.Sprintf("%s=%s\n", key, v))
+					_, _ = f.WriteString(fmt.Sprintf("%s=%s\n", key, v))
 				}
 			}
 
