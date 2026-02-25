@@ -4,6 +4,7 @@ go 1.25.5
 
 require (
 	github.com/99designs/keyring v1.2.2
+	github.com/atotto/clipboard v0.1.4
 	github.com/frostyeti/go/dotenv v0.0.0
 	github.com/frostyeti/go/secrets v0.0.0
 	github.com/gobwas/glob v0.2.3

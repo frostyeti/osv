@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/atotto/clipboard"
 	"github.com/frostyeti/go/dotenv"
 	"github.com/frostyeti/osv/internal/utils"
 	"github.com/spf13/cobra"
@@ -39,6 +40,7 @@ Examples:
 	Run: func(cmd *cobra.Command, args []string) {
 		keys, _ := cmd.Flags().GetStringSlice("key")
 		format, _ := cmd.Flags().GetString("format")
+		clip, _ := cmd.Flags().GetBool("clip")
 
 		if len(args) > 0 {
 			keys = append(keys, args...)
@@ -60,13 +62,27 @@ Examples:
 		}
 
 		values := map[string]string{}
-		for _, key := range keys {
+		var firstVal string
+		for i, key := range keys {
 			item, err := kr.Get(key)
 			if err != nil {
 				Error(cmd, "getting secret %s failed: %v\n", key, err)
 				osExit(1)
 			}
-			values[key] = string(item.Data)
+			val := string(item.Data)
+			values[key] = val
+			if i == 0 {
+				firstVal = val
+			}
+		}
+
+		if clip {
+			if err := clipboard.WriteAll(firstVal); err != nil {
+				Error(cmd, "copying to clipboard failed: %v\n", err)
+				osExit(1)
+			}
+			Ok(cmd, "copied to clipboard\n")
+			return
 		}
 
 		switch format {
@@ -146,4 +162,5 @@ func init() {
 	getCmd.Flags().StringP("service", "s", service, "Service name for the keyring")
 	getCmd.Flags().StringSliceP("key", "k", []string{}, "Name of secret(s) to get (can be specified multiple times)")
 	getCmd.Flags().StringP("format", "f", "text", "Output format (text, json, sh, bash, zsh, powershell, pwsh, dotenv)")
+	getCmd.Flags().BoolP("clip", "c", false, "Copy the first secret to clipboard instead of printing")
 }

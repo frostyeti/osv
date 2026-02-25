@@ -175,3 +175,23 @@ func TestRmCmd(t *testing.T) {
 		t.Errorf("Expected secret to be removed from mock keyring")
 	}
 }
+
+func TestRenameCmd(t *testing.T) {
+	mk, _, _ := setupTest(t)
+	mk.Set(keyring.Item{Key: "old-sec", Data: []byte("val123")})
+
+	out, errOut, _ := executeCommand("rename", "old-sec", "new-sec")
+	if !strings.Contains(out, "renamed old-sec to new-sec") {
+		t.Errorf("Expected success rename output, got: %s err: %s", out, errOut)
+	}
+
+	_, err := mk.Get("old-sec")
+	if err != keyring.ErrKeyNotFound {
+		t.Errorf("Expected old-sec to be removed")
+	}
+
+	item, err := mk.Get("new-sec")
+	if err != nil || string(item.Data) != "val123" {
+		t.Errorf("Expected new-sec to contain 'val123'")
+	}
+}
