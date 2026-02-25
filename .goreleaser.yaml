@@ -21,12 +21,7 @@ archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
+      {{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}
     format_overrides:
       - goos: windows
         format: zip
@@ -60,12 +55,33 @@ nfpms:
 
 # snapcrafts:
 #   - summary: "A cli to interact with operating system vaults."
-    description: "A cli to interact with operating system vaults."
+#     description: "A cli to interact with operating system vaults."
 
 appimages:
   - description: "A cli to interact with operating system vaults."
 
-# dockers:
+scoop:
+  repository:
+    owner: frostyeti
+    name: scoop-bucket
+  homepage: "https://github.com/frostyeti/osv"
+  description: "A cli to interact with operating system vaults."
+  license: "MIT"
+
+winget:
+  publisher: frostyeti
+  package_identifier: "frostyeti.osv"
+  package_name: "osv"
+  short_description: "A cli to interact with operating system vaults."
+  license: "MIT"
+
+chocolateys:
+  - id: osv
+    title: osv
+    authors: "frostyeti"
+    project_url: "https://github.com/frostyeti/osv"
+    description: "A cli to interact with operating system vaults."
+    tags: "cli secrets vault password-manager"
 #   - image_templates:
 #       - "frostyeti/osv:{{ .Version }}"
 #       - "frostyeti/osv:latest"
