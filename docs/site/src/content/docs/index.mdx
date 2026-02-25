@@ -35,37 +35,78 @@ sudo dnf install libsecret
 
 ### Installation
 
-Download the binary from the [releases page](https://github.com/frostyeti/osv/releases) or use a package manager:
+There are several ways to install the `osv` CLI.
 
+#### Quick Install (Scripts)
+You can quickly install the latest version of `osv` by running one of our automated install scripts.
+
+**Linux / macOS (Bash/Sh)**
 ```bash
-# macOS/Linux (Homebrew)
+curl -fsSL https://raw.githubusercontent.com/frostyeti/osv/main/eng/scripts/install.sh | bash
+```
+
+**Windows (PowerShell)**
+```powershell
+Invoke-RestMethod -Uri https://raw.githubusercontent.com/frostyeti/osv/main/eng/scripts/install.ps1 | Invoke-Expression
+```
+
+#### Manual Download & Install
+
+You can manually download and install the archives using built-in system tools.
+
+**Linux / macOS (Tar)**
+```bash
+# Download the release for your platform (example: Linux amd64)
+curl -L -o osv.tar.gz https://github.com/frostyeti/osv/releases/latest/download/osv_linux_amd64.tar.gz
+
+# Extract and install it to a directory in your PATH
+tar -xzf osv.tar.gz
+sudo mv osv /usr/local/bin/osv
+```
+
+**Windows (Zip)**
+Windows 10 and above ships natively with `curl.exe` and `tar.exe` which can be used to download and extract zip archives natively:
+```powershell
+# Download the release for your architecture (example: Windows amd64)
+curl.exe -L -o osv.zip https://github.com/frostyeti/osv/releases/latest/download/osv_windows_amd64.zip
+
+# Extract the zip file
+tar.exe -xf osv.zip
+
+# Move it to a directory in your PATH (e.g. AppData\Local\Programs\bin)
+New-Item -ItemType Directory -Force -Path $env:LOCALAPPDATA\Programs\bin
+Move-Item -Force osv.exe $env:LOCALAPPDATA\Programs\bin\osv.exe
+```
+
+#### Package Managers
+
+**macOS / Linux (Homebrew)**
+```bash
 brew install frostyeti/tap/osv
 ```
 
 **Windows (Chocolatey)**
-You can download and install the `.nupkg` directly from the release page:
+You can download and install the `.nupkg` directly from the [latest release page](https://github.com/frostyeti/osv/releases/latest):
 ```powershell
 # Download the nuget package
-curl -L -o osv.nupkg https://github.com/frostyeti/osv/releases/latest/download/osv.0.0.0-alpha.1.nupkg
+curl.exe -L -o osv.nupkg https://github.com/frostyeti/osv/releases/latest/download/osv.0.0.0-alpha.2.nupkg
 
 # Install it locally
 choco install osv -s .
 ```
-*(Make sure to update the version number in the URL to the latest version)*
 
 **Windows (Winget)**
-You can download and install the Winget manifest zip directly from the release page:
+You can download and install the Winget manifest zip directly from the [latest release page](https://github.com/frostyeti/osv/releases/latest):
 ```powershell
 # Download the winget manifests zip
-curl -L -o winget.zip https://github.com/frostyeti/osv/releases/latest/download/frostyeti.osv.winget-v0.0.0-alpha.1.zip
+curl.exe -L -o winget.zip https://github.com/frostyeti/osv/releases/latest/download/frostyeti.osv.winget-v0.0.0-alpha.2.zip
 
 # Extract the manifests
-tar -xf winget.zip
+tar.exe -xf winget.zip
 
 # Install using the local manifests
 winget install -m .
 ```
-*(Make sure to update the version number in the URL to the latest version)*
 
 ### Commands Reference
 
