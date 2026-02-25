@@ -31,3 +31,17 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Zip and upload Winget manifests
+        run: |
+          $Version = "${{ github.ref_name }}".TrimStart('v')
+          $ManifestDir = "dist\winget\manifests\f\frostyeti\osv\$Version"
+          $ZipFile = "dist\frostyeti.osv.winget-${{ github.ref_name }}.zip"
+          if (Test-Path $ManifestDir) {
+            Compress-Archive -Path "$ManifestDir\*" -DestinationPath $ZipFile
+            gh release upload ${{ github.ref_name }} $ZipFile
+          } else {
+            Write-Host "Winget manifests not found at $ManifestDir"
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN || secrets.GITHUB_TOKEN }}

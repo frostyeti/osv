@@ -42,6 +42,31 @@ Download the binary from the [releases page](https://github.com/frostyeti/osv/re
 brew install frostyeti/tap/osv
 ```
 
+**Windows (Chocolatey)**
+You can download and install the `.nupkg` directly from the release page:
+```powershell
+# Download the nuget package
+curl -L -o osv.nupkg https://github.com/frostyeti/osv/releases/latest/download/osv.0.0.0-alpha.1.nupkg
+
+# Install it locally
+choco install osv -s .
+```
+*(Make sure to update the version number in the URL to the latest version)*
+
+**Windows (Winget)**
+You can download and install the Winget manifest zip directly from the release page:
+```powershell
+# Download the winget manifests zip
+curl -L -o winget.zip https://github.com/frostyeti/osv/releases/latest/download/frostyeti.osv.winget-v0.0.0-alpha.1.zip
+
+# Extract the manifests
+tar -xf winget.zip
+
+# Install using the local manifests
+winget install -m .
+```
+*(Make sure to update the version number in the URL to the latest version)*
+
 ### Commands Reference
 
 #### `osv set`
