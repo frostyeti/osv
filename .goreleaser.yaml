@@ -57,26 +57,26 @@ nfpms:
 #   - summary: "A cli to interact with operating system vaults."
 #     description: "A cli to interact with operating system vaults."
 
-appimages:
-  - description: "A cli to interact with operating system vaults."
+# appimages:
+#   - description: "A cli to interact with operating system vaults."
 
-scoop:
-  repository:
-    owner: frostyeti
-    name: scoop-bucket
-  homepage: "https://github.com/frostyeti/osv"
-  description: "A cli to interact with operating system vaults."
-  license: "MIT"
+scoops:
+  - repository:
+      owner: frostyeti
+      name: scoop-bucket
+    homepage: "https://github.com/frostyeti/osv"
+    description: "A cli to interact with operating system vaults."
+    license: "MIT"
 
-winget:
-  publisher: frostyeti
-  package_identifier: "frostyeti.osv"
-  package_name: "osv"
-  short_description: "A cli to interact with operating system vaults."
-  license: "MIT"
+wingets:
+  - publisher: frostyeti
+    package_identifier: "frostyeti.osv"
+    package_name: "osv"
+    short_description: "A cli to interact with operating system vaults."
+    license: "MIT"
 
 chocolateys:
-  - id: osv
+  - name: osv
     title: osv
     authors: "frostyeti"
     project_url: "https://github.com/frostyeti/osv"
