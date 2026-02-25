@@ -7,17 +7,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// getCmd represents the get command
+// ConfigCmd represents the config command
 var ConfigCmd = &cobra.Command{
-	Use:   "config ",
-	Short: "Manage configuration settings",
-	Long: `Set one config value in the config file.
+	Use:   "config",
+	Short: "Manage local osv configuration settings",
+	Long: `Manage local osv configuration settings using the CLI.
 
 Examples:
-  # Sets the default service name
+  # Set the default service name
   osv config set service my-service-name
   
-  # Gets the default service name
+  # Get the default service name
   osv config get service`,
 	Run: func(cmd *cobra.Command, args []string) {
 

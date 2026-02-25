@@ -12,13 +12,23 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "osv",
 	Version: Version,
-	Short:   "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short:   "Operating System Vaults (osv) CLI",
+	Long: `osv is a secure, cross-platform CLI tool to interact with your operating system's native keychain and credential vaults.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+It allows you to securely set, get, list, remove, and rename secrets using your native OS credential store (macOS Keychain, Windows Credential Manager, Linux Secret Service / Keyring).
+
+Examples:
+  # Set a secret value
+  osv set --key api-token --value "super-secret"
+
+  # Retrieve a secret
+  osv get api-token
+
+  # Retrieve multiple secrets and export them as .env content
+  osv get api-token db-password --format dotenv
+
+  # List secrets
+  osv ls "api-*"`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
