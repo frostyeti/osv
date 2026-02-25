@@ -47,23 +47,23 @@ brews:
     description: "A cli to interact with operating system vaults."
     license: "MIT"
 
-# nfpms:
-#   - maintainer: frostyeti
-#     description: "A cli to interact with operating system vaults."
-#     homepage: "https://github.com/frostyeti/osv"
-#     license: "MIT"
-#     formats:
-#       - deb
-#       - rpm
-#       - apk
-#       - archlinux
+nfpms:
+  - maintainer: frostyeti
+    description: "A cli to interact with operating system vaults."
+    homepage: "https://github.com/frostyeti/osv"
+    license: "MIT"
+    formats:
+      - deb
+      - rpm
+      - apk
+      - archlinux
 
 # snapcrafts:
 #   - summary: "A cli to interact with operating system vaults."
-#     description: "A cli to interact with operating system vaults."
+    description: "A cli to interact with operating system vaults."
 
-# appimages:
-#   - description: "A cli to interact with operating system vaults."
+appimages:
+  - description: "A cli to interact with operating system vaults."
 
 # dockers:
 #   - image_templates:

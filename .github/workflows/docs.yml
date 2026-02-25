@@ -22,15 +22,15 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: 'docs/package-lock.json'
+          cache-dependency-path: 'docs/site/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
-        working-directory: docs
+        working-directory: docs/site
 
       - name: Build Docs
         run: npm run build
-        working-directory: docs
+        working-directory: docs/site
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -38,5 +38,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: 'osv-docs'
-          directory: 'docs/dist'
+          directory: 'docs/site/dist'
           githubToken: ${{ secrets.GITHUB_TOKEN }}

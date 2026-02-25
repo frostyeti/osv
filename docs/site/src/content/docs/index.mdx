@@ -1,0 +1,92 @@
+---
+title: Welcome to OSV
+description: Operating System Vault CLI
+template: splash
+hero:
+  tagline: A secure, cross-platform CLI tool to interact with your operating system's native keychain and credential vaults.
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: View GitHub Repository
+      link: https://github.com/frostyeti/osv
+      icon: external
+      variant: primary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## How to Use OSV
+
+The `osv` CLI allows you to securely manage secrets using your operating system's native credential store (macOS Keychain, Windows Credential Manager, Linux Secret Service / Keyring). 
+
+### Installation
+
+Download the binary from the [releases page](https://github.com/frostyeti/osv/releases) or use a package manager:
+
+```bash
+# macOS/Linux (Homebrew)
+brew install frostyeti/tap/osv
+```
+
+### Basic Commands
+
+<CardGrid stagger>
+	<Card title="Set a Secret" icon="pencil">
+		Store a secret in the vault. You can pass the value directly, via a file, stdin, or generate a random one.
+		```bash
+		# Value from command line
+		osv set --key api-token --value "super-secret"
+		
+		# Generate a secure 32-character secret
+		osv set --key db-password --generate --size 32
+		```
+	</Card>
+	<Card title="Get a Secret" icon="magnifier">
+		Retrieve one or more secrets from the vault. Format outputs as JSON, Dotenv, Bash exports, and more.
+		```bash
+		# Standard output
+		osv get api-token
+		
+		# Output as dotenv file content
+		osv get api-token db-password --format dotenv
+		
+		# Copy secret to clipboard (no output)
+		osv get api-token --clip
+		```
+	</Card>
+	<Card title="List Secrets" icon="list-format">
+		List all secret keys in the vault, or filter them using glob patterns.
+		```bash
+		# List all
+		osv ls
+		
+		# Filter by pattern
+		osv ls "api-*"
+		```
+	</Card>
+	<Card title="Manage Secrets" icon="setting">
+		Rename or permanently remove secrets from your vault.
+		```bash
+		# Rename a secret key
+		osv rename api-token prod-api-token
+		
+		# Remove a secret (prompts for confirmation)
+		osv rm prod-api-token
+		
+		# Remove multiple secrets automatically
+		osv rm secret1 secret2 --yes
+		```
+	</Card>
+</CardGrid>
+
+### Output Formats
+
+The `get` command supports numerous output formats via `--format` allowing easy integration in your shell scripts or CI/CD pipelines:
+
+- `text` (default): Raw text
+- `json`: JSON object mapping keys to values
+- `dotenv` / `env`: Key-value pairs for `.env` files
+- `sh` / `bash` / `zsh`: Export statements for Unix shells
+- `powershell` / `pwsh`: Environment variable assignments for PowerShell
+- `github`: Registers masks and outputs GitHub Actions environment variable commands
+- `azure-devops` / `ado`: Outputs Azure DevOps secret logging commands
