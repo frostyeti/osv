@@ -13,11 +13,25 @@ hero:
       variant: primary
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
-
 ## How to Use OSV
 
 The `osv` CLI allows you to securely manage secrets using your operating system's native credential store (macOS Keychain, Windows Credential Manager, Linux Secret Service / Keyring). 
+
+### OS Prerequisites (Linux)
+
+On Linux, `osv` relies on the Secret Service API (via `libsecret`). You must ensure it is installed on your system to interact with the keyring.
+
+```bash
+# Debian / Ubuntu
+sudo apt-get update && sudo apt-get install libsecret-1-0
+
+# Arch Linux
+sudo pacman -S libsecret
+
+# Rocky Linux / RHEL / Fedora
+sudo dnf install libsecret
+```
+*(Note: A headless server might also require a keyring daemon like `gnome-keyring` and `dbus-run-session` to be configured for the secret service to run without a desktop environment).*
 
 ### Installation
 
@@ -28,56 +42,82 @@ Download the binary from the [releases page](https://github.com/frostyeti/osv/re
 brew install frostyeti/tap/osv
 ```
 
-### Basic Commands
+### Commands Reference
 
-<CardGrid stagger>
-	<Card title="Set a Secret" icon="pencil">
-		Store a secret in the vault. You can pass the value directly, via a file, stdin, or generate a random one.
-		```bash
-		# Value from command line
-		osv set --key api-token --value "super-secret"
-		
-		# Generate a secure 32-character secret
-		osv set --key db-password --generate --size 32
-		```
-	</Card>
-	<Card title="Get a Secret" icon="magnifier">
-		Retrieve one or more secrets from the vault. Format outputs as JSON, Dotenv, Bash exports, and more.
-		```bash
-		# Standard output
-		osv get api-token
-		
-		# Output as dotenv file content
-		osv get api-token db-password --format dotenv
-		
-		# Copy secret to clipboard (no output)
-		osv get api-token --clip
-		```
-	</Card>
-	<Card title="List Secrets" icon="list-format">
-		List all secret keys in the vault, or filter them using glob patterns.
-		```bash
-		# List all
-		osv ls
-		
-		# Filter by pattern
-		osv ls "api-*"
-		```
-	</Card>
-	<Card title="Manage Secrets" icon="setting">
-		Rename or permanently remove secrets from your vault.
-		```bash
-		# Rename a secret key
-		osv rename api-token prod-api-token
-		
-		# Remove a secret (prompts for confirmation)
-		osv rm prod-api-token
-		
-		# Remove multiple secrets automatically
-		osv rm secret1 secret2 --yes
-		```
-	</Card>
-</CardGrid>
+#### `osv set`
+Store a secret in the vault. You can pass the value directly, via a file, stdin, or generate a random one.
+
+```bash
+# Value from command line
+osv set --key api-token --value "super-secret"
+
+# Generate a secure 32-character secret
+osv set --key db-password --generate --size 32
+
+# Value from a file
+osv set --key cert --file ./cert.pem
+
+# Value from stdin
+echo "my-secret" | osv set --key stdin-secret --stdin
+```
+
+#### `osv get`
+Retrieve one or more secrets from the vault. Format outputs as JSON, Dotenv, Bash exports, and more.
+
+```bash
+# Standard output
+osv get api-token
+
+# Output as dotenv file content
+osv get api-token db-password --format dotenv
+
+# Copy secret directly to clipboard (no console output)
+osv get api-token --clip
+```
+
+#### `osv ls`
+List all secret keys in the vault, or filter them using glob patterns.
+
+```bash
+# List all secrets
+osv ls
+
+# Filter by pattern
+osv ls "api-*"
+```
+
+#### `osv rename`
+Rename an existing secret key in the vault.
+
+```bash
+# Rename a secret key
+osv rename api-token prod-api-token
+```
+
+#### `osv rm`
+Permanently remove secrets from your vault.
+
+```bash
+# Remove a secret (prompts for confirmation)
+osv rm prod-api-token
+
+# Remove multiple secrets automatically without prompting
+osv rm secret1 secret2 --yes
+```
+
+#### `osv config`
+Manage `osv` configuration settings like default service names.
+
+```bash
+# Set a config value
+osv config set service my-app-service
+
+# Get a config value
+osv config get service
+
+# Remove a config value
+osv config rm service
+```
 
 ### Output Formats
 
