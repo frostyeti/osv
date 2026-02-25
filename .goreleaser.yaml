@@ -68,12 +68,12 @@ scoops:
     description: "A cli to interact with operating system vaults."
     license: "MIT"
 
-wingets:
-  - publisher: frostyeti
-    package_identifier: "frostyeti.osv"
-    package_name: "osv"
-    short_description: "A cli to interact with operating system vaults."
-    license: "MIT"
+# wingets:
+#   - publisher: frostyeti
+#     package_identifier: "frostyeti.osv"
+#     package_name: "osv"
+#     short_description: "A cli to interact with operating system vaults."
+#     license: "MIT"
 
 chocolateys:
   - name: osv
