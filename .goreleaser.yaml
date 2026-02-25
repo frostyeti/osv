@@ -1,0 +1,93 @@
+version: 2
+
+project_name: osv
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+brews:
+  - repository:
+      owner: frostyeti
+      name: homebrew-tap
+    directory: Formula
+    homepage: "https://github.com/frostyeti/osv"
+    description: "A cli to interact with operating system vaults."
+    license: "MIT"
+
+nfpms:
+  - maintainer: frostyeti
+    description: "A cli to interact with operating system vaults."
+    homepage: "https://github.com/frostyeti/osv"
+    license: "MIT"
+    formats:
+      - deb
+      - rpm
+      - apk
+      - archlinux
+
+# snapcrafts:
+#   - summary: "A cli to interact with operating system vaults."
+#     description: "A cli to interact with operating system vaults."
+
+# appimages:
+#   - description: "A cli to interact with operating system vaults."
+
+scoops:
+  - repository:
+      owner: frostyeti
+      name: scoop-bucket
+    homepage: "https://github.com/frostyeti/osv"
+    description: "A cli to interact with operating system vaults."
+    license: "MIT"
+
+# wingets:
+#   - publisher: frostyeti
+#     package_identifier: "frostyeti.osv"
+#     package_name: "osv"
+#     short_description: "A cli to interact with operating system vaults."
+#     license: "MIT"
+
+chocolateys:
+  - name: osv
+    title: osv
+    authors: "frostyeti"
+    project_url: "https://github.com/frostyeti/osv"
+    description: "A cli to interact with operating system vaults."
+    tags: "cli secrets vault password-manager"
+#   - image_templates:
+#       - "frostyeti/osv:{{ .Version }}"
+#       - "frostyeti/osv:latest"
+#     build_flag_templates:
+#       - "--pull"
+#       - "--label=org.opencontainers.image.created={{.Date}}"
+#       - "--label=org.opencontainers.image.title={{.ProjectName}}"
+#       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+#       - "--label=org.opencontainers.image.version={{.Version}}"

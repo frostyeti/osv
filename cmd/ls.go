@@ -44,7 +44,7 @@ Examples:
 		kr, err := openKeyring(cmd)
 		if err != nil {
 			Error(cmd, "opening keyring failed: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		// Compile glob pattern if provided
@@ -53,7 +53,7 @@ Examples:
 			matcher, err = glob.Compile(filterPattern)
 			if err != nil {
 				Error(cmd, "invalid filter pattern: %v\n", err)
-				os.Exit(1)
+				osExit(1)
 			}
 		}
 
@@ -61,7 +61,7 @@ Examples:
 		keys, err := kr.Keys()
 		if err != nil {
 			Error(cmd, "failed to list secrets: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 		matchCount := 0
 
@@ -78,9 +78,9 @@ Examples:
 		}
 
 		if matchCount == 0 {
-			os.Exit(1)
+			osExit(1)
 		} else {
-			os.Exit(0)
+			osExit(0)
 		}
 	},
 }

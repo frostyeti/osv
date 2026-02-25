@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: 'go.mod'
+        cache: true
+
+    - name: Install govulncheck
+      run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+    - name: Run govulncheck
+      run: govulncheck ./...
+
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v6
+      with:
+        version: latest
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test (Unit)
+      run: go test -v ./...
+
+    - name: Test (Integration)
+      run: go test -v -tags=integration ./...
+      
+    # - name: Generate Coverage
+    #   run: go test -v -coverprofile=coverage.out ./...
+    #
+    # - name: Upload Coverage
+    #   uses: codecov/codecov-action@v4
+    #   with:
+    #     file: ./coverage.out
+    #     fail_ci_if_error: true

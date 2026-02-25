@@ -11,7 +11,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var KeyringProvider = defaultOpenKeyring
+
 func openKeyring(cmd *cobra.Command) (keyring.Keyring, error) {
+	return KeyringProvider(cmd)
+}
+
+func defaultOpenKeyring(cmd *cobra.Command) (keyring.Keyring, error) {
 	service, _ := cmd.Flags().GetString("service")
 	cfg, confErr := config.GetConfig()
 
@@ -68,26 +74,3 @@ func Ok(cmd *cobra.Command, format string, a ...interface{}) {
 	cmd.Printf(format, a...)
 }
 
-func toScreamingSnakeCase(input string) string {
-	output := ""
-	for i, char := range input {
-		if char >= 'A' && char <= 'Z' {
-			if i > 0 {
-				output += "_"
-			}
-			output += string(char)
-		} else if char >= 'a' && char <= 'z' {
-			if i > 0 && input[i-1] >= 'A' && input[i-1] <= 'Z' {
-				output += "_"
-			}
-			output += string(char - ('a' - 'A'))
-		} else if char >= '0' && char <= '9' {
-			output += string(char)
-		} else {
-			if i > 0 && input[i-1] != '_' {
-				output += "_"
-			}
-		}
-	}
-	return output
-}

@@ -90,24 +90,24 @@ Examples:
 
 		if inputMethods == 0 {
 			Error(cmd, "must specify exactly one of --value, --file, --var, --stdin, or --generate\n")
-			os.Exit(1)
+			osExit(1)
 		}
 
 		if inputMethods > 1 {
 			Error(cmd, "options --value, --file, --var, --stdin, and --generate are mutually exclusive\n")
-			os.Exit(1)
+			osExit(1)
 		}
 
 		// Validate key is provided
 		if key == "" {
 			Error(cmd, "--key must be provided\n")
-			os.Exit(1)
+			osExit(1)
 		}
 
 		kr, err := openKeyring(cmd)
 		if err != nil {
 			Error(cmd, "opening keyring failed: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		// Get the secret value based on the input method
@@ -119,27 +119,27 @@ Examples:
 			data, err := os.ReadFile(file)
 			if err != nil {
 				Error(cmd, "reading file %s failed: %v\n", file, err)
-				os.Exit(1)
+				osExit(1)
 			}
 			secretValue = string(data)
 		case varName != "":
 			secretValue = os.Getenv(varName)
 			if secretValue == "" {
 				Error(cmd, "environment variable %s is empty or not set\n", varName)
-				os.Exit(1)
+				osExit(1)
 			}
 		case stdin:
 			data, err := io.ReadAll(os.Stdin)
 			if err != nil {
 				Error(cmd, "reading from stdin failed: %v\n", err)
-				os.Exit(1)
+				osExit(1)
 			}
 			secretValue = string(data)
 		case generate:
 			secretValue, err = generateSecret(cmd)
 			if err != nil {
 				Error(cmd, "generating secret failed: %v\n", err)
-				os.Exit(1)
+				osExit(1)
 			}
 		}
 
@@ -150,11 +150,11 @@ Examples:
 		})
 		if err != nil {
 			Error(cmd, "setting secret %s failed: %v\n", key, err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		Ok(cmd, "%s is set.\n", key)
-		os.Exit(0)
+		osExit(0)
 	},
 }
 

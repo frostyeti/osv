@@ -48,13 +48,13 @@ Examples:
 		// Validate that at least one key is provided
 		if len(keys) == 0 {
 			cmd.PrintErrf("Error: at least one --key must be provided\n")
-			os.Exit(1)
+			osExit(1)
 		}
 
 		kr, err := openKeyring(cmd)
 		if err != nil {
 			cmd.PrintErrf("Error opening keyring: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		// Prompt for confirmation unless --yes is specified
@@ -75,7 +75,7 @@ Examples:
 			response = strings.ToLower(strings.TrimSpace(response))
 			if response != "y" && response != "yes" {
 				fmt.Println("Operation cancelled")
-				os.Exit(1)
+				osExit(1)
 			}
 		}
 
@@ -94,10 +94,10 @@ Examples:
 
 		if deletedCount == len(keys) {
 			fmt.Printf("\nSuccessfully deleted %d secret(s)\n", deletedCount)
-			os.Exit(0)
+			osExit(0)
 		} else {
 			fmt.Printf("\nDeleted %d out of %d secret(s)\n", deletedCount, len(keys))
-			os.Exit(1)
+			osExit(1)
 		}
 	},
 }

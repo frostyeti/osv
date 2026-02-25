@@ -24,7 +24,7 @@ Examples:
 
 		if len(args) != 2 {
 			Error(cmd, "key and value must be provided\n")
-			os.Exit(1)
+			osExit(1)
 		}
 
 		key := args[0]
@@ -32,13 +32,13 @@ Examples:
 
 		if key == "" {
 			Error(cmd, "key must be not be empty\n")
-			os.Exit(1)
+			osExit(1)
 		}
 
 		configFile, err := GetConfigPath()
 		if err != nil {
 			Error(cmd, "getting config path: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		_, err = os.Stat(configFile)
@@ -49,18 +49,18 @@ Examples:
 					err = os.MkdirAll(parent, 0755)
 					if err != nil {
 						Error(cmd, "creating config directory: %v\n", err)
-						os.Exit(1)
+						osExit(1)
 					}
 				}
 
 				err2 := os.WriteFile(configFile, []byte{}, 0644)
 				if err2 != nil {
 					Error(cmd, "creating config file: %v\n", err2)
-					os.Exit(1)
+					osExit(1)
 				}
 			} else {
 				Error(cmd, " config file: %v\n", err)
-				os.Exit(1)
+				osExit(1)
 			}
 		}
 
@@ -68,17 +68,17 @@ Examples:
 		err = kv.Load(configFile)
 		if err != nil {
 			Error(cmd, "loading config file: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		kv.Set(key, value)
 		err = kv.Save()
 		if err != nil {
 			Error(cmd, "saving config file: %v\n", err)
-			os.Exit(1)
+			osExit(1)
 		}
 
 		os.Stderr.WriteString("[ok] config '" + key + "' updated.\n")
-		os.Exit(0)
+		osExit(0)
 	},
 }
